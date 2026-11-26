@@ -19,7 +19,7 @@ import pandas as pd
 
 DEFAULT_PLAYLIST = "3VVoHV6zHfcoJvqrtGrcED"
 DATA = Path(__file__).resolve().parent.parent / "data"
-COLUMNS = ["artist", "title", "year", "duration_s", "spotify_url", "notes"]
+COLUMNS = ["artist", "title", "year", "year_source", "duration_s", "spotify_url", "notes"]
 
 
 def playlist_tracks(playlist_id: str) -> list[dict]:
@@ -39,6 +39,7 @@ def playlist_tracks(playlist_id: str) -> list[dict]:
             "artist": re.sub(r",\s*", ";", t["subtitle"]),
             "title": t["title"],
             "year": None,
+            "year_source": None,
             "duration_s": round(t["duration"] / 1000),
             "spotify_url": "https://open.spotify.com/track/" + t["uri"].rsplit(":", 1)[-1],
             "notes": None,

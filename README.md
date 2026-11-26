@@ -31,11 +31,18 @@ mood.
 |---------------|-----------------------------------------------------------|
 | `artist`      | Ella Fitzgerald & Louis Armstrong                         |
 | `title`       | Summertime                                                |
-| `year`        | 1957                                                      |
+| `year`        | 1957 (year the performance was recorded, not the reissue) |
+| `year_source` | where the year came from, e.g. "draft - verify", "Discogs" |
 | `spotify_url` | https://open.spotify.com/track/...                        |
 | `notes`       | optional, e.g. "instrumental", "live"                     |
 
 The Spotify link gives the track ID used to look up audio features.
+
+Years can't be filled in automatically: streaming services and databases list the
+date of whichever reissue or compilation a track is on now (a 1939 Sidney Bechet
+recording shows up as "2026 Remaster"). So they are entered by hand. Year is not
+used for clustering; it's used afterwards, to check whether the sound-based groups
+line up with era.
 
 ### Adding songs
 
