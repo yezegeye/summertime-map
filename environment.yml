@@ -1,0 +1,10 @@
+name: summertime
+# Conda only provides Python; packages come from pip (requirements.txt), which
+# installs in a minute instead of waiting on conda's solver.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -r requirements.txt

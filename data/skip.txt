@@ -1,0 +1,3 @@
+# Spotify track IDs to leave out even if they are in the playlist
+0qB213IfGN0JXXm9aRjldF  # Doris Day - Again (not Summertime)
+0igVljE59wJFAx59I9VQtY  # Al Green - Summertime (same recording as 1wgyVw5XL14SW2BV4lBcVi)
