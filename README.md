@@ -6,11 +6,12 @@ differ. The melody is the same in every version, so whatever separates them on
 the map comes from how each artist performs it: tempo, energy, instrumentation,
 mood.
 
-> Status: early. The notebook skeleton is in place; the song list is next.
+> Status: in progress. 54 versions collected with audio features; the analysis
+> (PCA, clustering) and the website are next.
 
 ## Plan
 
-1. **Notebook** (`notebooks/summertime.ipynb`): fetch audio features for each
+1. **Notebook** (`notebooks/summertime.ipynb`): load the audio features for each
    version, standardize them, run PCA to 2-D, cluster with K-Means, check how
    valid the clusters are (silhouette score, stability across resamples), and
    draft a description of each cluster.
@@ -47,14 +48,16 @@ line up with era.
 ### Adding songs
 
 1. Add them to the Spotify playlist.
-2. Run `python scripts/sync_playlist.py`. New tracks are appended to `songs.csv`;
-   rows you've already edited are left alone. Track IDs listed in `data/skip.txt`
-   are never added.
-3. Re-run the notebook. Only new songs are matched (Deezer, or iTunes if Deezer lacks them) and analyzed; earlier
-   results are reused from `data/matches.csv` and `data/features.csv`.
-4. Check the match table in step 2 of the notebook. To fix a wrong match, edit
-   that row's `source` and `source_id` in `matches.csv` and delete the song's row from
-   `features.csv` so it is re-analyzed.
+2. Run `python -m summertime.update`. It adds new tracks to `songs.csv` (rows
+   you've edited are left alone; track IDs in `data/skip.txt` are never added),
+   matches them to a preview on Deezer or iTunes, computes their audio features,
+   and lists anything worth checking, such as a matched recording whose length
+   differs from Spotify's.
+3. Re-run the notebook.
+
+To fix a wrong match, edit that row's `source` and `source_id` in
+`data/matches.csv` and delete the song's row from `data/features.csv` so it is
+re-analyzed.
 
 ## Where the data comes from
 
@@ -70,10 +73,32 @@ line up with era.
   apps in November 2024, and ReccoBeats' full-track database covers only some of
   these recordings.)
 
+## Project layout
+
+```
+data/
+  songs.csv        the song list (the only file edited by hand)
+  skip.txt         playlist tracks to leave out
+  matches.csv      the Deezer/iTunes recording matched to each song
+  features.csv     audio features per song
+summertime/        Python package
+  data.py          paths, feature list, loading the song list
+  playlist.py      reads the Spotify playlist
+  matching.py      matches songs to Deezer/iTunes recordings
+  features.py      previews -> audio features
+  update.py        `python -m summertime.update`: all of the above in one go
+notebooks/
+  summertime.ipynb the analysis, step by step
+tests/             tests for the matching logic
+site/              the website (to come)
+```
+
 ## Running locally
 
 ```bash
 conda env create -f environment.yml
 conda activate summertime
+python -m summertime.update          # bring data up to date with the playlist
 jupyter lab notebooks/summertime.ipynb
+pytest                               # run the tests
 ```

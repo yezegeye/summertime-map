@@ -1,0 +1,9 @@
+[project]
+name = "summertime-map"
+version = "0.1.0"
+description = "One song, many interpretations: mapping versions of Gershwin's Summertime with unsupervised learning"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
